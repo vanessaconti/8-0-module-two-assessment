@@ -1,33 +1,39 @@
-const selector = document.querySelector("#select-film");
-fetch("https://ghibliapi.herokuapp.com/films")
+const filmSelections = document.querySelector("#select-film");
+const description = document.querySelector("#description");
+const filmDate = document.querySelector("#year");
+const opinions = document.querySelector("ul");
+const filmTitle = document.querySelector("#title-film");
+
+fetch(`https://ghibliapi.herokuapp.com/films`)
   .then((response) => response.json())
-  .then((obj) => {
-    obj.forEach((film) => {
+  .then((films) => {
+    films.forEach((film) => {
       const option = document.createElement("option");
       option.value = film.title;
       option.textContent = film.title;
-      selector.append(option);
+      filmSelections.append(option);
     });
 
-    selector.addEventListener("change", (event) => {
+    filmSelections.addEventListener("change", (event) => {
       event.preventDefault();
-      const filmInfo = document.querySelector("#display-info");
-      obj.forEach((film) => {
-        if (film.title === event.target.value) {
-          filmInfo.innerHTML = `
-                <h3>${film.title}</h3>
-                <p>${film.release_date}</p>
-                <p>${film.description}</p>`;
+      filmTitle.textContent = event.target.value;
+      for (let film of films) {
+        if (event.target.value === film.title) {
+          description.textContent = film.description;
+          filmDate.textContent = film.release_date;
         }
-      });
+      }
     });
 
     document.querySelector("form").addEventListener("submit", (event) => {
       event.preventDefault();
-      const ul = document.querySelector("ul");
       const li = document.createElement("li");
-      li.innerHTML = `<strong><b>${selector.value}</b></strong>: ${event.target.review.value}`;
-      ul.append(li);
-      event.target.reset();
+      const strong = document.createElement("strong");
+      const reviewText = document.querySelector("#review-text");
+      strong.textContent = filmTitle.textContent + ":" + " ";
+      li.textContent = reviewText.value;
+      li.prepend(strong);
+      opinions.append(li);
+      reviewText.value = "";
     });
   });
