@@ -1,1 +1,27 @@
+#container {
+  font-family: monospace;
+  display: grid;
+  grid-template-columns: repeat(6, 1 fr);
+  background-color: lavender;
+  grid-gap: 1em;
+}
+header {
+  grid-row: 1;
+  grid-column: 2 / 5;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  background-color: skyblue;
+}
+h1:first-child {
+  grid-column: 2 /3;
+}
+.resize {
+  grid-column: 1 / 2;
+  width: 400px;
+  height: auto;
+}
 
+#select-film {
+  grid-column: 2;
+  grid-row: 2;
+}
